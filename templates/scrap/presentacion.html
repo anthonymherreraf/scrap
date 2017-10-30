@@ -1,0 +1,729 @@
+{% extends "scrap/base.html" %}
+
+
+{% block title %}Presentacion{% endblock %}
+
+
+
+{% block style2 %}
+
+{% load static %} 
+<script language="javascript" type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.flot.js' %}"></script>
+<script language="javascript" type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.flot.time.js' %}"></script>
+<script language="javascript" type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.flot.axislabels.js' %}"></script>
+
+{% endblock %}
+
+
+
+{% block pag-presentacion %}active{% endblock %}
+
+{% block content %}
+
+
+<style type="text/css">
+	
+select, input {
+	margin-bottom: 5px;
+}
+
+label{
+	color: #2A3F54;
+}
+
+#elplot:hover{
+	background: darkgray;
+}
+
+input {
+	margin-top: 5px;
+}
+
+.linea-izq{
+	border-left: 2px solid /*#d3ddff*/ /*#2A3F54*/ #73879C;
+}
+
+.recuadro{
+	border-radius: 7px;	
+	border: 2px solid /*#d3ddff*/ /*#2A3F54*/ #73879C;
+	text-align: center;
+}
+
+.recuadro2{
+	/* border: 3px solid #2A3F54;*/
+	background-color: lavender;
+	text-align: center;
+	padding: 0px 25px;
+}
+
+
+</style>
+
+
+<h1 style="text-align: center;">Vea la gráfica segun lo que desee</h1>
+
+
+<div class="container" style="margin-top: 100px;">
+	<div class="container recuadro2" >
+
+		<div class="row">
+			
+			<h3 style="text-align: center; color: #2A3F54;">Filtrado</h3>
+
+		</div>
+
+
+		<div class="row recuadro">
+
+			<div class="col-md-2" style="text-align: center;" >
+				
+	            <label>Fuente</label>
+	            <br>
+	            <select id="sources" style=" /*width: 150px;*/">
+	            	<option value="">  </option>
+	            	<option value="All"> All </option>
+
+	                {% for source in sources %}
+
+	                <option value="{{ source }}"> {{ source }} </option>
+
+	                {% endfor %}
+	            </select>
+			</div>
+
+			<div class="col-md-5 linea-izq" style="text-align: center;" >
+				
+	            <label>Marca</label>
+	            <br>
+	            <select id="Brands" style=" /*width: 375px;*/">
+	            	<option value="">  </option>
+
+	                {% for Brand in Brands %}
+
+	                <option value="{{ Brand }}"> {{ Brand }} </option>
+
+	                {% endfor %}
+	            </select>
+			</div>
+
+			<div class="col-md-3 linea-izq" style="text-align: center;" >
+				
+	            <label>Modelo</label>
+	            <br>
+	            <select id="Models" style=" /*width: 225px;*/">
+	            	<option value="">  </option>
+
+	                {% for Model in Models %}
+
+	                <option value="{{ Model }}"> {{ Model }} </option>
+
+	                {% endfor %}
+	            </select>
+			</div>
+
+			<div class="col-md-2 linea-izq" style="text-align: center;" >
+				
+	            <label>Año</label>
+	            <br>
+	            <select id="Years" style=" /*width: 150px;*/">
+	            	<option value="">  </option>
+
+	                {% for Year in Years %}
+
+	                <option value="{{ Year }}"> {{ Year }} </option>
+
+	                {% endfor %}
+	            </select>
+			</div>
+
+		</div>
+
+		<br>
+
+		<div class="row recuadro">
+
+			<div class="col-md-12" style="text-align: center;" >
+
+	            <label>Link</label>
+	            <br>
+	            <select id="Links" style=" /*width: 900px;*/">
+	            	<option value="">  </option>
+
+	                {% for Link in Links %}
+
+	                <option value="{{ Link }}"> {{ Link }} </option>
+
+	                {% endfor %}
+	            </select>
+			</div>
+			
+		</div>
+
+		<br>
+
+		<div class="row recuadro">
+
+			<div class="col-md-3" style="text-align: center; margin-top: 8px;" >
+				
+	            <label>Fecha inicio (dd/mm/yyyy)</label>
+
+			</div>
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+				<input type="text" name="startdate" id="startdate">
+
+			</div>
+
+			<div class="col-md-3" style="text-align: center; margin-top: 8px;" >
+				
+	            <label>Fecha Fin (dd/mm/yyyy)</label>
+			</div>
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+	            <input type="text" name="enddate" id="enddate">
+			</div>
+
+		</div>
+
+		<br>
+
+
+
+		<div class="row recuadro">
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+	            <label>Promedio: </label>
+
+			</div>
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+				<label id="elpromedio"></label>
+
+			</div>
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+	            <label>Desviación Estándar: </label>
+			</div>
+
+			<div class="col-md-3" style="text-align: center;" >
+				
+	            <label id="ladesviacionestandar"></label>
+			</div>
+
+		</div>
+
+		<br>
+
+
+		<div class="row">
+
+			<div class="col-md-12" style="text-align: center;" >
+				
+				<div id="elplot" style="padding: 0 15px; border: 2px solid /*darkgray*/ #2A3F54;  color: #2A3F54;" class="button btn btn-large"> Generar Grafica </div>
+
+			</div>
+			
+		</div>
+
+	</div>	
+
+
+
+
+	<br>
+
+	<div class="row">
+		
+		<div class="ejecutandose" style="display: none;">
+			<h3> Sus datos están siendo consultados... </h3>
+		</div>
+
+	</div>
+
+
+
+
+	<div class="row">
+		<div style="padding-left: 40px; padding-right: 115px; margin-bottom: 25px;" >
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+	</div>
+
+
+
+		<p style="display: none;">
+			<label><input id="enablePosition" type="checkbox" checked="checked"></input>Show mouse position</label>
+			<span id="hoverdata"></span>
+			<span id="clickdata"></span>
+		</p>
+
+		<p style="display: none;"><label><input id="enableTooltip" type="checkbox" checked="checked"></input>Enable tooltip</label></p>
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+	
+
+    $(document).ready(function(){
+
+
+        $("#sources").change(function(){
+
+            
+            nombre_source = $(this).val();
+            $('#Brands').children("option").remove();
+            $('#Models').children("option").remove();
+            $('#Years').children("option").remove();
+            $('#Links').children("option").remove();
+            request_url = '/scrap/get/brand/' + nombre_source + '/';
+            $.ajax({
+                url: request_url,
+                 dataType: 'json', 
+                success: function(data){
+                    $.each(data, function(index, text){
+                        $('select[id=Brands]').append(
+                             $('<option></option>').val(text).html(text.substr(0,45)).attr("value",text)
+                         );
+                    });
+
+
+		            nombre_source = $("#sources").val();
+		            nombre_brand = $("#Brands").val();
+		            nombre_model = $("#Models").val();
+		            nombre_year = $("#Years").val();
+		            nombre_link = $("#Links").val();
+		            nombre_iniciofecha = $("#startdate").val();
+		            nombre_finfecha = $("#enddate").val();
+
+					var abuscar = {
+					    'nombre_source': nombre_source,
+					    'nombre_brand': nombre_brand,
+					    'nombre_model': nombre_model,
+					    'nombre_year': nombre_year,
+					    'nombre_link': nombre_link,
+					    'nombre_iniciofecha': nombre_iniciofecha,
+					    'nombre_finfecha': nombre_finfecha
+					};
+
+					//console.log($("#startdate").val());
+
+					$.ajax({
+						type: "GET",
+						url: "/scrap/get/average/",
+						dataType: 'json',
+						data: abuscar,
+						success: function(data) {
+
+							//console.log(data);
+
+							$('#elpromedio').val(data.average_label).html(data.average_label);
+							$('#ladesviacionestandar').val(data.std_label).html(data.std_label);
+
+
+
+						//alert(data);
+						}
+		 			});
+
+
+
+                }
+            });
+            return false;
+        })
+
+
+        $("#Brands").change(function(){
+
+            nombre_source = $("#sources").val();
+            nombre_brand = $(this).val();
+            $('#Models').children("option").remove();
+            $('#Years').children("option").remove();
+            $('#Links').children("option").remove();
+            request_url = '/scrap/get/model/' + nombre_source + '/' + nombre_brand + '/';
+            $.ajax({
+                url: request_url,
+                 dataType: 'json', 
+                success: function(data){
+                    $.each(data, function(index, text){
+                        $('select[id=Models]').append(
+                             $('<option></option>').val(text).html(text.substr(0,30)).attr("value",text)
+                         );
+                    });
+
+
+		            nombre_source = $("#sources").val();
+		            nombre_brand = $("#Brands").val();
+		            nombre_model = $("#Models").val();
+		            nombre_year = $("#Years").val();
+		            nombre_link = $("#Links").val();
+		            nombre_iniciofecha = $("#startdate").val();
+		            nombre_finfecha = $("#enddate").val();
+
+					var abuscar = {
+					    'nombre_source': nombre_source,
+					    'nombre_brand': nombre_brand,
+					    'nombre_model': nombre_model,
+					    'nombre_year': nombre_year,
+					    'nombre_link': nombre_link,
+					    'nombre_iniciofecha': nombre_iniciofecha,
+					    'nombre_finfecha': nombre_finfecha
+					};
+
+					//console.log($("#startdate").val());
+
+					$.ajax({
+						type: "GET",
+						url: "/scrap/get/average/",
+						dataType: 'json',
+						data: abuscar,
+						success: function(data) {
+
+							//console.log(data);
+
+							$('#elpromedio').val(data.average_label).html(data.average_label);
+							$('#ladesviacionestandar').val(data.std_label).html(data.std_label);
+
+
+
+						//alert(data);
+						}
+		 			});
+
+
+
+                }
+            });
+            return false;
+        })
+
+
+        $("#Models").change(function(){
+
+            nombre_source = $("#sources").val();
+            nombre_brand = $("#Brands").val();
+            nombre_model = $(this).val();
+            $('#Years').children("option").remove();
+            $('#Links').children("option").remove();
+            request_url = '/scrap/get/year/' + nombre_source + '/' + nombre_brand + '/' + nombre_model + '/';
+            $.ajax({
+                url: request_url,
+                 dataType: 'json', 
+                success: function(data){
+                    $.each(data, function(index, text){
+                        $('select[id=Years]').append(
+                             $('<option></option>').val(text).html(text.substr(0,10)).attr("value",text)
+                         );
+                    });
+
+
+		            nombre_source = $("#sources").val();
+		            nombre_brand = $("#Brands").val();
+		            nombre_model = $("#Models").val();
+		            nombre_year = $("#Years").val();
+		            nombre_link = $("#Links").val();
+		            nombre_iniciofecha = $("#startdate").val();
+		            nombre_finfecha = $("#enddate").val();
+
+					var abuscar = {
+					    'nombre_source': nombre_source,
+					    'nombre_brand': nombre_brand,
+					    'nombre_model': nombre_model,
+					    'nombre_year': nombre_year,
+					    'nombre_link': nombre_link,
+					    'nombre_iniciofecha': nombre_iniciofecha,
+					    'nombre_finfecha': nombre_finfecha
+					};
+
+					//console.log($("#startdate").val());
+
+					$.ajax({
+						type: "GET",
+						url: "/scrap/get/average/",
+						dataType: 'json',
+						data: abuscar,
+						success: function(data) {
+
+							//console.log(data);
+
+							$('#elpromedio').val(data.average_label).html(data.average_label);
+							$('#ladesviacionestandar').val(data.std_label).html(data.std_label);
+
+
+
+						//alert(data);
+						}
+		 			});
+
+
+                }
+            });
+            return false;
+        })
+
+
+        $("#Years").change(function(){
+
+            nombre_source = $("#sources").val();
+            nombre_brand = $("#Brands").val();
+            nombre_model = $("#Models").val();
+            nombre_year = $(this).val();
+            
+            $('#Links').children("option").remove();
+            request_url = '/scrap/get/link/' + nombre_source + '/' + nombre_brand + '/' + nombre_model + '/' + nombre_year + '/';
+            $.ajax({
+                url: request_url,
+                 dataType: 'json', 
+                success: function(data){
+                    $.each(data, function(index, text){
+                        $('select[id=Links]').append(
+                             $('<option></option>').val(text).html(text).attr("value",text)
+                         );
+                    });
+
+
+
+		            nombre_source = $("#sources").val();
+		            nombre_brand = $("#Brands").val();
+		            nombre_model = $("#Models").val();
+		            nombre_year = $("#Years").val();
+		            nombre_link = $("#Links").val();
+		            nombre_iniciofecha = $("#startdate").val();
+		            nombre_finfecha = $("#enddate").val();
+
+					var abuscar = {
+					    'nombre_source': nombre_source,
+					    'nombre_brand': nombre_brand,
+					    'nombre_model': nombre_model,
+					    'nombre_year': nombre_year,
+					    'nombre_link': nombre_link,
+					    'nombre_iniciofecha': nombre_iniciofecha,
+					    'nombre_finfecha': nombre_finfecha
+					};
+
+					//console.log($("#startdate").val());
+
+					$.ajax({
+						type: "GET",
+						url: "/scrap/get/average/",
+						dataType: 'json',
+						data: abuscar,
+						success: function(data) {
+
+							//console.log(data);
+
+							$('#elpromedio').val(data.average_label).html(data.average_label);
+							$('#ladesviacionestandar').val(data.std_label).html(data.std_label);
+
+
+
+						//alert(data);
+						}
+		 			});
+
+
+                }
+            });
+            return false;
+        })
+
+
+
+        $("#elplot").click(function(){
+
+        	$('.ejecutandose').show('slow');
+
+/*
+			setTimeout(function(){
+                $('.ejecutandose').show('slow');
+            }, 3000);
+*/
+
+            nombre_source = $("#sources").val();
+            nombre_brand = $("#Brands").val();
+            nombre_model = $("#Models").val();
+            nombre_year = $("#Years").val();
+            nombre_link = $("#Links").val();
+            nombre_iniciofecha = $("#startdate").val();
+            nombre_finfecha = $("#enddate").val();
+
+			var abuscar = {
+			    'nombre_source': nombre_source,
+			    'nombre_brand': nombre_brand,
+			    'nombre_model': nombre_model,
+			    'nombre_year': nombre_year,
+			    'nombre_link': nombre_link,
+			    'nombre_iniciofecha': nombre_iniciofecha,
+			    'nombre_finfecha': nombre_finfecha
+			};
+
+			//console.log($("#startdate").val());
+
+			$.ajax({
+				type: "GET",
+				url: "/scrap/get/plot/",
+				dataType: 'json',
+				data: abuscar,
+				success: function(data) {
+
+					//console.log(data);
+
+					var datosx = [];
+					var datosy = [];
+					datosx = data.ejex;
+					datosy = data.ejey;
+					var datosgrafica = [];
+					//console.log(datosx.length);
+					//console.log(datosy.length);
+
+					var prueba;
+					var newfecha;
+					//prueba = new Date();
+
+					for (var i = 0; i < datosx.length; i += 1) {
+						
+						prueba = datosx[i] * 1000 ;
+						//console.log(prueba);
+						//console.log("y ahora");
+						//console.log(new Date(prueba));
+						newfecha = new Date(prueba);
+/*						
+						console.log(newfecha);
+						
+						console.log("toDateString "+newfecha.toDateString());
+						console.log("getDay "+newfecha.getDay());
+						console.log("getFullYear "+newfecha.getFullYear());
+						console.log("getHours "+newfecha.getHours());
+						console.log("getMinutes "+newfecha.getMinutes());
+						console.log("getMonth "+newfecha.getMonth());
+						console.log("getSeconds "+newfecha.getSeconds());
+						console.log("getTime "+newfecha.getTime());
+						console.log("toString "+newfecha.toString());
+						console.log("toTimeString "+newfecha.toTimeString());
+						console.log("getUTCDay "+newfecha.getUTCDay());
+						console.log("getUTCFullYear "+newfecha.getUTCFullYear());
+						console.log("getUTCHours "+newfecha.getUTCHours());
+						console.log("getUTCMinutes "+newfecha.getUTCMinutes());
+						console.log("getUTCMonth "+newfecha.getUTCMonth());
+						console.log("getUTCSeconds "+newfecha.getUTCSeconds());
+						console.log("toISOString "+newfecha.toISOString());
+						console.log("toJSON "+newfecha.toJSON());
+						console.log("toLocaleDateString "+newfecha.toLocaleDateString());
+						console.log("toLocaleTimeString "+newfecha.toLocaleTimeString());
+						console.log("toLocaleString "+newfecha.toLocaleString());
+						console.log("toString "+newfecha.toString());
+						console.log("toTimeString "+newfecha.toTimeString());
+						console.log("toUTCString "+newfecha.toUTCString());
+*/
+
+
+
+						//datosgrafica.push([datosx[i],datosy[i]]);
+						//datosgrafica.push([prueba,datosy[i]]);
+						datosgrafica.push([newfecha,datosy[i]]);
+					}
+
+
+//var date = new Date(UNIX_timestamp*1000);
+//console.log(date);
+
+					//console.log(datosgrafica);
+					//$('.ejecutandose').hide('slow');
+					setTimeout(function(){
+		                $('.ejecutandose').hide('slow');
+		            }, 2000);
+					var plot = $.plot("#placeholder", [
+						{ data: datosgrafica,
+						color: "blue"}
+					], {
+						xaxes: [ { mode: "time", axisLabel: "Fecha/Hora" } ],
+						yaxes: [ { axisLabel: "Precio" } ],
+						series: {
+							lines: {
+								show: true
+							},
+							points: {
+								show: true
+							}
+						},
+						grid: {
+							hoverable: true,
+							clickable: true
+						}
+					});
+
+					//console.log(new Date());
+
+
+					$("<div id='tooltip'></div>").css({
+						position: "absolute",
+						display: "none",
+						border: "1px solid #fdd",
+						padding: "2px",
+						"background-color": "#fee",
+						opacity: 0.80
+					}).appendTo("body");
+
+					$("#placeholder").bind("plothover", function (event, pos, item) {
+
+						if ($("#enablePosition:checked").length > 0) {
+							var str = "(" + pos.x.toFixed(2) + ", " + pos.y.toFixed(2) + ")";
+							$("#hoverdata").text(str);
+						}
+
+						if ($("#enableTooltip:checked").length > 0) {
+							if (item) {
+								var x = item.datapoint[0].toFixed(2),
+									y = item.datapoint[1].toFixed(2);
+
+									nuevox = new Date(parseFloat(x));
+									//console.log("x es: "+x);
+									//console.log("nuevox es: "+nuevox);
+								/*$("#tooltip").html("El costo al " + x + " es de " + y)*/
+								$("#tooltip").html("El costo al " + (nuevox.getUTCDay() + 1) +"/"+(nuevox.getUTCMonth() + 1)+"/"+(nuevox.getUTCFullYear())+"("+ nuevox.getUTCHours() +":"+ nuevox.getUTCMinutes() +":"+ nuevox.getUTCSeconds() +")" + " es de $" + parseInt(y))
+									.css({top: item.pageY+5, left: item.pageX+5})
+									.fadeIn(200);
+							} else {
+								$("#tooltip").hide();
+							}
+						}
+					});
+
+					$("#placeholder").bind("plotclick", function (event, pos, item) {
+						if (item) {
+							$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
+							plot.highlight(item.series, item.datapoint);
+						}
+					});
+
+
+
+				//alert(data);
+				}
+ 			});
+
+
+            return false;
+        })
+
+
+
+
+    });
+
+
+
+
+</script>
+
+
+{% endblock %}

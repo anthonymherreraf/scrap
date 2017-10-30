@@ -1,0 +1,36 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block sidebar %}
+
+
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="{% url 'index' %}" class="site_title"><i class="fa fa-paw"></i> <span>Web Scraping!</span></a>
+            </div>
+          </div>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+
+  <h2>Inicio de Sesión</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+
+          </section>
+        </div>
+    </div>
+
+{% endblock %}

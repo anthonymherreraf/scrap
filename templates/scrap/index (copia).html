@@ -1,0 +1,146 @@
+{% extends "scrap/base.html" %}
+
+
+{% block title %}Inicio{% endblock %}
+
+{% block pag-home %}active{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+	
+	a.disabled {
+	   pointer-events: none;
+	   cursor: default;
+	}
+
+	.gris{
+	   background-color: darkgray;
+	}
+
+</style>
+
+<h1 style="text-align: center;">Elija la pagina de vehículos que desea scrapear</h1>
+
+<table style="width:50%">
+	<tr>	
+		<th>
+			Mercadolibre 
+		</th>
+		<th>
+			<div class="btn button " style="padding: 0 15px;">
+				<!--
+				<a id="scrapmerc" class="scraping" style="background: none; padding: 0px;" href="/scrap/crear_mercadolibre/">scrap!</a>
+				-->
+				<a id="scrapmerc" class="scraping" style="background: none; padding: 0px;" href="#">scrap!</a>
+			</div>
+		</th>
+		<th>
+			<h4 class="mensajescrap" id="mscrapmerc" style="display: none;" ></h4>
+		</th>
+
+		<br>
+	</tr>
+	<tr>
+		<th>
+			OLX 
+		</th>
+		<th>
+			<div class="btn button" style="padding: 0 15px;">
+				<!--
+				<a id="scrapolx" class="scraping" style="background: none; padding: 0px;" href="/scrap/crear_olx/">scrap!</a>
+				-->
+				<a id="scrapolx" class="scraping" style="background: none; padding: 0px;" href="#">scrap!</a>
+			</div>
+		</th>
+		<th>
+			<h4 class="mensajescrap" id="mscrapolx" style="display: none;" ></h4>
+		</th>
+
+		<br>
+	</tr>
+		<tr>	
+		<th>
+			Patio de Autos 
+		</th>
+		<th>
+			<div class="btn button" style="padding: 0 15px;">
+				<!--	
+				<a id="scrappatau" class="scraping" style="background: none; padding: 0px;" href="/scrap/crear_patiodeautos/">scrap!</a>
+				-->
+				<a id="scrappatau" class="scraping" style="background: none; padding: 0px;" href="#">scrap!</a>
+			</div>
+		</th>
+		<th>
+			<h4 class="mensajescrap" id="mscrappatau" style="display: none;" ></h4>
+		</th>
+		<br>
+	</tr>
+	<tr>	
+		<th>
+			Patio Tuerca 
+		</th>		
+		<th>
+			<div class="btn button " style="padding: 0 15px;">
+				<!--
+				<a id="scrappattu" class="scraping" style="background: none; padding: 0px;" href="/scrap/crear_patiodetuerca/">scrap!</a>
+				-->
+				<a id="scrappattu" class="scraping" style="background: none; padding: 0px;" href="#">scrap!</a>
+			</div>
+		</th>
+		<th>
+			<h4 class="mensajescrap" id="mscrappattu" style="display: none;" ></h4>
+		</th>
+
+		<br>
+	</tr>
+
+</table>
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+
+
+		$(".scraping").click(function(){
+
+
+		    $(".mensajescrap").each(function(){
+        	    $(this).text(" ");
+        	});
+
+
+
+			setTimeout(function(){
+			    $(".scraping").each(function(){
+	        	    $(this).addClass("disabled");
+	        	    //$(this).parent().removeClass("button");
+	        	    $(this).parent().addClass("gris");
+	        	});     
+			}, 500);
+
+        	var id_a = $(this).attr('id');
+
+
+
+        	$('#m'+id_a).text(" Se procesará lo solicitado... ");
+
+
+        	setTimeout(function(){
+				$('#m'+id_a).show('slow');
+			}, 1000);
+
+
+        })
+
+
+
+
+    });
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,8 @@
+Django
+django-bootstrap3
+pandas
+pymongo
+matplotlib
+requests
+lxml
+channels
